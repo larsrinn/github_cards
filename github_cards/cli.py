@@ -7,8 +7,8 @@ import sys
 import click
 import github3
 
+from github_cards.decorators import inject_github_instance
 from github_cards.exceptions import catch_github_cards_exception, GitHubCardsException
-from github_cards.otp_cache import OTPCache
 from github_cards.rendering import render_cards
 
 
@@ -60,8 +60,10 @@ from github_cards.rendering import render_cards
     help="HTML filename to output to. "
     "Defaults to a value containing the repository title and the current time.",
 )
+@inject_github_instance
 @catch_github_cards_exception
 def main(
+    gh,
     owner,
     repository,
     username,
@@ -74,7 +76,6 @@ def main(
     output,
 ):
     """Console script for github_cards."""
-    gh = _get_possibly_authenticated_github(username, password)
     repo = _get_repo(gh, owner=owner, repository=repository)
     if milestone_title is not None:
         milestone_number = _get_milestone_number_from_title(repo, milestone_title)
@@ -90,21 +91,6 @@ def main(
         file.write(rendered)
 
     return 0
-
-
-def _get_possibly_authenticated_github(username: str, password: str) -> github3.GitHub:
-    gh = github3.GitHub()
-    if username is not None:
-        if password is None:
-            password = click.prompt(
-                f"Please enter GitHub-Password for {username}", hide_input=True
-            )
-        gh.login(
-            username=username,
-            password=password,
-            two_factor_callback=OTPCache().otp_callback,
-        )
-    return gh
 
 
 def _get_repo(gh: github3.GitHub, owner: str, repository: str):
