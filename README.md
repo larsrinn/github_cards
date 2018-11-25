@@ -43,7 +43,7 @@ github_cards --help
 
 ### ToDo
 * [x] Unspaghettify
-* [ ] Error handling
+* [x] Error handling
 * [ ] Add some tests
 * [ ] Add documentation
 * [ ] Caching of already covered cards

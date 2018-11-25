@@ -49,7 +49,13 @@ from github_cards.rendering import render_cards
     type=click.Choice(["all", "open", "closed"]),
     help="Limit to all, open or closed issues. Defaults to open",
 )
-@click.option("-o", "--output")
+@click.option(
+    "-o",
+    "--output",
+    type=click.Path(writable=True, file_okay=True),
+    help="HTML filename to output to. "
+    "Defaults to a value containing the repository title and the current time.",
+)
 @catch_github_cards_exception
 def main(
     owner,
