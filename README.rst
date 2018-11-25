@@ -26,7 +26,19 @@ Convert your GitHub issues into printable cards for your physical Scrum board.
 Features
 --------
 
-* TODO
+This tool creates a printable HTML-file containing the issues of a GitHub repository.
+You can print the file, cut the cards and attach them to your physical Scrum/Kanban board.
+
+To use it, run
+
+ToDo
+----
+* Unspaghettify
+* Add some tests
+* Add documentation
+* CLI script not requiring `python -m ...`
+* Caching of already covered cards
+
 
 Credits
 -------
