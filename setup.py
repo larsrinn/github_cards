@@ -40,6 +40,6 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/larsrinn/github_cards",
-    version="0.1.15",
+    version="0.1.16",
     zip_safe=False,
 )
