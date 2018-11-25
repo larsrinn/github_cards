@@ -7,6 +7,7 @@ import sys
 import click
 import github3
 
+from github_cards.exceptions import catch_github_cards_exception, GitHubCardsException
 from github_cards.otp_cache import OTPCache
 from github_cards.rendering import render_cards
 
@@ -49,6 +50,7 @@ from github_cards.rendering import render_cards
     help="Limit to all, open or closed issues. Defaults to open",
 )
 @click.option("-o", "--output")
+@catch_github_cards_exception
 def main(
     owner,
     repository,
@@ -95,7 +97,7 @@ def _get_repo(gh: github3.GitHub, owner: str, repository: str):
     try:
         return gh.repository(owner=owner, repository=repository)
     except github3.exceptions.NotFoundError:
-        raise ValueError(
+        raise GitHubCardsException(
             f"Can't find repository {owner}/{repository}. Maybe you need to authorize"
         )
 
@@ -109,7 +111,7 @@ def _get_milestone_number_from_title(
             milestone for milestone in milestones if milestone.title == milestone_title
         ][0]
     except IndexError:
-        raise ValueError(f"Can't find milestone {milestone_title}", err=True)
+        raise GitHubCardsException(f"Can't find milestone {milestone_title}", err=True)
     return milestone.number
 
 

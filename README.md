@@ -47,6 +47,7 @@ github_cards --help
 * [ ] Add some tests
 * [ ] Add documentation
 * [ ] Caching of already covered cards
+* [ ] User provided templates
 
 ## Credits
 
