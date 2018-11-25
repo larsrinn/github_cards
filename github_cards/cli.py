@@ -14,15 +14,54 @@ from github_cards.otp_cache import OTPCache
 @click.command()
 @click.argument("owner")
 @click.argument("repository")
-@click.option("-u", "--username")
-@click.option("-m", "--milestone-title")
-@click.option("-m#", "--milestone-number")
-@click.option("-s", "--state", default="open")
+@click.option(
+    "-u",
+    "--username",
+    help="Username to perform authenticated requests with. "
+    "If provided, the script will request the password.",
+)
+@click.option(
+    "-p",
+    "--password",
+    help="Password for the username provided. "
+    "If the username is set but the password is not provided, "
+    "script will request it.",
+)
+@click.option(
+    "-m",
+    "--milestone-title",
+    help="Limit selected issues to a milestone by the milestone's title. "
+    "It will search the repository for that milestone and error if "
+    "it's not available.",
+)
+@click.option(
+    "-m#",
+    "--milestone-number",
+    help="Limit selected issue to a milestone by the milestone's number "
+    "(similarly to issue numbers). Will be overwritten by the "
+    "milestone title if set.",
+)
+@click.option(
+    "-s",
+    "--state",
+    default="open",
+    type=click.Choice(["all", "open", "closed"]),
+    help="Limit to all, open or closed issues. Defaults to open",
+)
 @click.option("-o", "--output")
-def main(owner, repository, username, milestone_title, milestone_number, state, output):
+def main(
+    owner,
+    repository,
+    username,
+    password,
+    milestone_title,
+    milestone_number,
+    state,
+    output,
+):
     """Console script for github_cards."""
     gh = github3.GitHub()
-    if username is not None:
+    if username is not None and password is None:
         password = click.prompt(
             f"Please enter GitHub-Password for {username}", hide_input=True
         )
