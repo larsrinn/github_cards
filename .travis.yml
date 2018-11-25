@@ -10,7 +10,7 @@ deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: larsrinn
-  server: https://testpypi.python.org/pypi
+  server: https://testpypi.python.org/legacy/
   password:
     secure: "WHkg4hh6AgR5bj+R7/QfETOLbIdM/oScBAUuxfU2EoHqY2f9CaQH7jo1biyjehsmB3HHpeARP66pzE5kGVkFLQ4OkcmRXhGtu4rnqJuoK43EfrxygHX650qeFI3K32/kgZde7i700Fusgy2Tdi6zqPtHwASEYpxbVwNF3Agy/PzoIOy/hAxHfyydxgIxNYZz1hr3woQelrhEhCYtYPomkyOvVqjZ7AdMtrhyZ7D7wLSHpHZqV5ldO9ay8mdJYWdxqr4f3gZd9TzHA/z+zHAkZmZZNnRuzKp9t3F8veJ1WtrvZBuACafLoFUBTHy+/fEuqdORTxZel0h0257OeVwUmap8HJRzb4rCnGFOJxmGG0i/v81QsK1Bc6j83jjtd8N2NZoUO3Xey3DZFACIPA6GcGwenEz9mZeTjpQPvhGsjQmuz9i4WgVL8INUPslHgw47/fSSsLlmjz3MykOFuxeC/fN9vB6PI47mnWTOUtplhYpSnM72m/vkVSvuhpH8Yrn3XRClNFHOvMtaTKV7oeDQ6Uuwwv19NpCeX6y4DjJDrWn1YPDYnytph7Mwr5jZm+q/w2lzuNJdJNa8wscxPAq/WefrWCQcDO1J1pTQwNJ4aRuw7NBn7RUp3E21rFnN4GUfGXFPi6Zjpls0LdfBWq27BkWPb5m2auX8t2DxVAiCYNA="
   on:
