@@ -11,7 +11,7 @@ with open("README.md") as readme_file:
 with open("HISTORY.md") as history_file:
     history = history_file.read()
 
-requirements = ["Click>=6.0", "Jinja2>=2.10", "github3.py>=1"]
+requirements = ["Click>=6.0", "Jinja2", "github3.py"]
 
 setup_requirements = ["pytest-runner"]
 
@@ -43,6 +43,6 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/larsrinn/github_cards",
-    version="0.1.8",
+    version="0.1.9",
     zip_safe=False,
 )
