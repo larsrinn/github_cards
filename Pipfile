@@ -20,6 +20,7 @@ twine = "*"
 pytest = "*"
 pytest-runner = "*"
 pytest-mock = "*"
+pre-commit = "*"
 
 [requires]
 python_version = "3.7"

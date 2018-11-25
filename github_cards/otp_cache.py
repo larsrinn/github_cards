@@ -16,5 +16,5 @@ class OTPCache:
         return self._otp_password
 
     def _request_otp_password(self):
-        self._otp_password = click.prompt("Please enter 2 Factor Authentication password: ", type=int)
+        self._otp_password = click.prompt('Please enter 2 Factor Authentication password: ', type=int)
         self._last_entered_time = time.time()
