@@ -6,9 +6,9 @@ import sys
 
 import click
 import github3
-from jinja2 import Environment, PackageLoader, select_autoescape
 
 from github_cards.otp_cache import OTPCache
+from github_cards.rendering import render_cards
 
 
 @click.command()
@@ -60,53 +60,63 @@ def main(
     output,
 ):
     """Console script for github_cards."""
+    gh = _get_possibly_authenticated_github(username, password)
+    repo = _get_repo(gh, owner=owner, repository=repository)
+    if milestone_title is not None:
+        milestone_number = _get_milestone_number_from_title(repo, milestone_title)
+    issues = repo.issues(milestone=milestone_number, state=state)
+
+    rendered = render_cards(issues)
+
+    if output is None:
+        output = _get_default_output(owner, repository)
+    with open(output, "w") as file:
+        file.write(rendered)
+
+    return 0
+
+
+def _get_possibly_authenticated_github(username: str, password: str) -> github3.GitHub:
     gh = github3.GitHub()
-    if username is not None and password is None:
-        password = click.prompt(
-            f"Please enter GitHub-Password for {username}", hide_input=True
-        )
+    if username is not None:
+        if password is None:
+            password = click.prompt(
+                f"Please enter GitHub-Password for {username}", hide_input=True
+            )
         gh.login(
             username=username,
             password=password,
             two_factor_callback=OTPCache().otp_callback,
         )
+    return gh
+
+
+def _get_repo(gh: github3.GitHub, owner: str, repository: str):
     try:
-        repo = gh.repository(owner=owner, repository=repository)
+        return gh.repository(owner=owner, repository=repository)
     except github3.exceptions.NotFoundError:
-        click.echo(
-            f"Can't find repository {owner}/{repository}. Maybe you need to authorize",
-            err=True,
+        raise ValueError(
+            f"Can't find repository {owner}/{repository}. Maybe you need to authorize"
         )
-        return 1
 
-    if milestone_title is not None:
-        milestones = repo.milestones()
-        try:
-            milestone = [
-                milestone
-                for milestone in milestones
-                if milestone.title == milestone_title
-            ][0]
-        except IndexError:
-            click.echo(f"Can't find milestone {milestone_title}", err=True)
-            return 1
-        milestone_number = milestone.number
-    issues = repo.issues(milestone=milestone_number, state=state)
 
-    env = Environment(
-        loader=PackageLoader("github_cards", "templates"),
-        autoescape=select_autoescape(["html", "xml"]),
-    )
-    template = env.get_template("index.html")
-    rendered = template.render(issues=list(issues))
+def _get_milestone_number_from_title(
+    repo: github3.repos.repo._Repository, milestone_title: str
+):
+    milestones = repo.milestones()
+    try:
+        milestone = [
+            milestone for milestone in milestones if milestone.title == milestone_title
+        ][0]
+    except IndexError:
+        raise ValueError(f"Can't find milestone {milestone_title}", err=True)
+    return milestone.number
 
-    if output is None:
-        now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-        output = f"{owner}-{repository}-{now_str}.html"
-    with open(output, "w") as file:
-        file.write(rendered)
 
-    return 0
+def _get_default_output(owner: str, repository: str):
+    now_str = datetime.datetime.now().strftime("%Y-%m-%d--%H:%M")
+    output = f"{owner}-{repository}-{now_str}.html"
+    return output
 
 
 if __name__ == "__main__":
