@@ -7,6 +7,6 @@ env = Environment(
 )
 
 
-def render_cards(issues):
+def render_cards(**context):
     template = env.get_template("index.html")
-    return template.render(issues=issues)
+    return template.render(**context)

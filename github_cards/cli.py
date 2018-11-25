@@ -49,6 +49,10 @@ from github_cards.rendering import render_cards
     type=click.Choice(["all", "open", "closed"]),
     help="Limit to all, open or closed issues. Defaults to open",
 )
+@click.option("-pr", "--per-row", default=2, type=int, help="Number of cards per row")
+@click.option(
+    "-pc", "--per-column", default=3, type=int, help="Number of cards per column"
+)
 @click.option(
     "-o",
     "--output",
@@ -65,6 +69,8 @@ def main(
     milestone_title,
     milestone_number,
     state,
+    per_row,
+    per_column,
     output,
 ):
     """Console script for github_cards."""
@@ -74,7 +80,9 @@ def main(
         milestone_number = _get_milestone_number_from_title(repo, milestone_title)
     issues = repo.issues(milestone=milestone_number, state=state)
 
-    rendered = render_cards(issues)
+    rendered = render_cards(
+        issues=issues, cards_per_row=per_row, cards_per_column=per_column
+    )
 
     if output is None:
         output = _get_default_output(owner, repository)
