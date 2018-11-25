@@ -10,6 +10,7 @@ deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: larsrinn
+  server: https://testpypi.python.org/pypi # Remove for deployment to official PyPi repo
   password:
     secure: hRCk+M2J55wLnmQoaAtM6107YL35QbuvS6OL8Ker5a2gjndNI8YrOTU7ytT3+phFJrTH+4a6D/ucZWlsAVp2XzFUZ3PpYaqZoL2T0NhaxC3obSIjUHzfzOFY85vdIhywyX3wI24vnhEom7xNPJszVgddM6fObyzta+SQ2ORtTcw8vfd5ezBuuC1gNNDWLMAFqzG5HaYGflFiILhXpIH2FdKkNajrfFk8Otlob1YX8ucj8RQfCZxUXW3SbiMHtsaSukoiMrHowTm4B7G+RSOYru75/xvhtM9Ii5+ngGPzhDxrkDMsat48tZxmfo/YGMKNwlMm4u/wUGPNcW6icB+6EHuiehw2oTaSL4lDRwCrcKHSknZkcr3xMvJrIou8n6CxrQqNkoBZQ7X6VR3ig/0t+h3KCiadh2J0KJICjNs9cagsFmHy/BNsZSM+cTRzrCv2BAhlZHJa7umkYJ3+gMmw/kR94Ys6E/ZgOSxZzKyTfUCokBxZSzPVZsI1jP9uahpQIv4Fk4vkRMGfLUBKw92Ia2t4VCG1xOhQPZ5NrdWyfkrNuNiaUnpmrLrhrKEf9c+/BGS2TYsy52EMYNmpepxLi5chJKH8+htMQzZoFoNaOPZ1p3w8B9swlOlA/Wpx5eULVxiWMMXYDUMref9ntnpjwwYvQRr057X821QKDR34Xw0=
   on:
