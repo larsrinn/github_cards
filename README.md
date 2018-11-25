@@ -19,25 +19,41 @@ To use it, run
 
 ```bash
 # github_cards REPOSITORY_OWNER REPOSITORY_NAME
-github_cards pallets click
+>> github_cards pallets click
 ```
 
 There are some options available, e.g. to access private repositories or only select a certain milestone.
 
-```bash
-github_cards --help
+```
+>> github_cards --help
 
-# Usage: github_cards [OPTIONS] OWNER REPOSITORY
-#
-# Console script for github_cards.
-#
-# Options:
-#  -u, --username TEXT
-#  -m, --milestone-title TEXT
-#  -m#, --milestone-number TEXT
-#  -s, --state TEXT
-#  -o, --output TEXT
-#  --help                        Show this message and exit.
+Usage: github_cards [OPTIONS] OWNER REPOSITORY
+
+  Console script for github_cards.
+
+Options:
+  -u, --username TEXT            Username to perform authenticated requests
+                                 with. If provided, the script will request
+                                 the password.
+  -p, --password TEXT            Password for the username provided. If the
+                                 username is set but the password is not
+                                 provided, script will request it.
+  -m, --milestone-title TEXT     Limit selected issues to a milestone by the
+                                 milestone's title. It will search the
+                                 repository for that milestone and error if
+                                 it's not available.
+  -m#, --milestone-number TEXT   Limit selected issue to a milestone by the
+                                 milestone's number (similarly to issue
+                                 numbers). Will be overwritten by the
+                                 milestone title if set.
+  -s, --state [all|open|closed]  Limit to all, open or closed issues. Defaults
+                                 to open
+  -pr, --per-row INTEGER         Number of cards per row
+  -pc, --per-column INTEGER      Number of cards per column
+  -o, --output PATH              HTML filename to output to. Defaults to a
+                                 value containing the repository title and the
+                                 current time.
+  --help                         Show this message and exit.                     Show this message and exit.
 
 ```
 
@@ -48,6 +64,8 @@ github_cards --help
 * [ ] Add documentation
 * [ ] Caching of already covered cards
 * [ ] User provided templates
+* [ ] Authentication
+* [ ] List milestones
 
 ## Credits
 
