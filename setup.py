@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 with open("README.md") as readme_file:
     readme = readme_file.read()
 
-requirements = ["Click>=6.0", "Jinja2>=2.10", "github3.py>=1"]
+requirements = ["Click>=6.0", "Jinja2", "github3.py"]
 
 setup_requirements = ["pytest-runner"]
 
@@ -40,6 +40,6 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/larsrinn/github_cards",
-    version="0.1.11",
+    version="0.1.12",
     zip_safe=False,
 )
