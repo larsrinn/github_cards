@@ -28,8 +28,9 @@
     }
 
     .card {
-        display: grid;
-        grid-template-rows: 1fr 1cm;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         outline: 1px dotted;
         padding: 0.5cm;
         margin-top: 1px;
@@ -47,9 +48,28 @@
         margin-right: 0.2cm;
     }
 
+    .card-header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .card-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .card-footer {
-        display: inline-block;
-        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 1cm;
+    }
+
+    .number {
+        float: right;
+        font-size: 1.4em;
     }
 
     .label-wrapper {
@@ -71,37 +91,42 @@
 <div id="chrome-printable">
     {% for issue in issues %}
 
-    {% if loop.index0 % (cards_per_row * cards_per_column) == 0 %}
-    <div class="page">
-    {% endif %}
+        {% if loop.index0 % (cards_per_row * cards_per_column) == 0 %}
+            <div class="page">
+        {% endif %}
 
-        <div class="card">
-            <div class="card-content">
-                <div class="title">
-                    {{issue.title}}
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="label-wrapper">
-                    {% for label in issue.original_labels %}
-                    <span style="background-color: #{{label.color}}" class="label">
-                {{label.name}}
-            </span>
-                    {% endfor %}
-                </div>
-
-                <div class="assignee-wrapper">
-                    {% for assignee in issue.assignees %}
-                    <span class="assignee">
-                <img src="{{assignee.avatar_url}}"/>
-            </span>
-                    {% endfor %}
-                </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="number">
+                #{{ issue.number }}
             </div>
         </div>
+        <div class="card-content">
+            <div class="title">
+                {{ issue.title }}
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="label-wrapper">
+                {% for label in issue.original_labels %}
+                    <span style="background-color: #{{ label.color }}" class="label">
+                {{ label.name }}
+            </span>
+                {% endfor %}
+            </div>
+
+            <div class="assignee-wrapper">
+                {% for assignee in issue.assignees %}
+                    <span class="assignee">
+                <img src="{{ assignee.avatar_url }}"/>
+            </span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
     {% if loop.index0 % (cards_per_row * cards_per_column) == cards_per_row * cards_per_column - 1 or loop.last %}
-    </div>
+        </div>
     {% endif %}
 
     {% endfor %}
