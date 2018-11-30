@@ -109,7 +109,7 @@
         <div class="card-footer">
             <div class="label-wrapper">
                 {% for label in issue.original_labels %}
-                    <span style="background-color: #{{ label.color }}" class="label">
+                    <span style="background-color: #{{ label.color }}; color: #{{ label.color|readable_font_color }}" class="label">
                 {{ label.name }}
             </span>
                 {% endfor %}
