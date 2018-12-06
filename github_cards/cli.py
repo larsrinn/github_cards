@@ -51,7 +51,7 @@ from github_cards.rendering import render_cards
 )
 @click.option("-pr", "--per-row", default=2, type=int, help="Number of cards per row")
 @click.option(
-    "-pc", "--per-column", default=3, type=int, help="Number of cards per column"
+    "-pc", "--per-column", default=2, type=int, help="Number of cards per column"
 )
 @click.option(
     "-o",
