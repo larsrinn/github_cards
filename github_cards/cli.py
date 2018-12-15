@@ -7,7 +7,7 @@ import sys
 import click
 import github3
 
-from github_cards.decorators import inject_github_instance
+from github_cards.decorators import inject_github_instance, retry_on_2fa_failure
 from github_cards.exceptions import catch_github_cards_exception, GitHubCardsException
 from github_cards.rendering import render_cards
 
@@ -79,7 +79,7 @@ def main(
     repo = _get_repo(gh, owner=owner, repository=repository)
     if milestone_title is not None:
         milestone_number = _get_milestone_number_from_title(repo, milestone_title)
-    issues = repo.issues(milestone=milestone_number, state=state)
+    issues = _get_issues(repo, milestone_number, state)
 
     rendered = render_cards(
         issues=issues, cards_per_row=per_row, cards_per_column=per_column
@@ -89,11 +89,12 @@ def main(
         output = _get_default_output(owner, repository)
     with open(output, "w") as file:
         file.write(rendered)
-    click.secho(f"Created file {output}...\n" f"Happy printing", fg="green")
+    click.secho(f"\nCreated file {output}...\n" f"Happy printing", fg="green")
 
     return 0
 
 
+@retry_on_2fa_failure
 def _get_repo(gh: github3.GitHub, owner: str, repository: str):
     try:
         return gh.repository(owner=owner, repository=repository)
@@ -103,6 +104,7 @@ def _get_repo(gh: github3.GitHub, owner: str, repository: str):
         )
 
 
+@retry_on_2fa_failure
 def _get_milestone_number_from_title(
     repo: github3.repos.repo._Repository, milestone_title: str
 ):
@@ -112,8 +114,18 @@ def _get_milestone_number_from_title(
             milestone for milestone in milestones if milestone.title == milestone_title
         ][0]
     except IndexError:
-        raise GitHubCardsException(f"Can't find milestone {milestone_title}", err=True)
+        raise GitHubCardsException(f"Can't find milestone {milestone_title}")
     return milestone.number
+
+
+@retry_on_2fa_failure
+def _get_issues(
+    repo: github3.repos.repo._Repository, milestone_number: int, state: str
+):
+    issues = list(repo.issues(milestone=milestone_number, state=state))
+    if len(issues) == 0:
+        raise GitHubCardsException("No matching issues found.")
+    return issues
 
 
 def _get_default_output(owner: str, repository: str):
