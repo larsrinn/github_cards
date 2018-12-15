@@ -27,7 +27,7 @@ setup(
     ],
     description="Convert your GitHub issues into printable cards for your physical "
     "Scrum/Kanban board.",
-    entry_points={"console_scripts": ["github_cards=github_cards.cli:main"]},
+    entry_points={"console_scripts": ["github-cards=github_cards.cli:main"]},
     install_requires=requirements,
     license="MIT license",
     long_description=readme,
