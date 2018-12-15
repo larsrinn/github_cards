@@ -89,6 +89,7 @@ def main(
         output = _get_default_output(owner, repository)
     with open(output, "w") as file:
         file.write(rendered)
+    click.secho(f"Created file {output}...\n" f"Happy printing", fg="green")
 
     return 0
 
