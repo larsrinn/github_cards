@@ -104,7 +104,7 @@
             </div>
         </div>
         <div class="card-content">
-            <div class="title">
+            <div class="title" style="font-size: {% if issue.title_length <= 50 %}3rem {% else %}2rem{% endif %}">
                 {{ issue.title }}
             </div>
         </div>
