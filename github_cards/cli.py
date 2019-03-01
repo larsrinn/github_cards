@@ -81,6 +81,9 @@ def main(
         milestone_number = _get_milestone_number_from_title(repo, milestone_title)
     issues = _get_issues(repo, milestone_number, state)
 
+    for issue in issues:
+        issue.title_length = len(issue.title)
+
     rendered = render_cards(
         issues=issues, cards_per_row=per_row, cards_per_column=per_column
     )
